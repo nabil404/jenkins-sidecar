@@ -1,0 +1,42 @@
+pipeline {
+  agent any
+  tools {
+    dockerTool 'docker'
+    nodejs 'nodejs'
+  }
+
+  environment {
+    CI = 'true'
+  }
+
+  stages {
+    stage('Install Dependencies') {
+      steps {
+        dir('sidecar-react') {
+          sh '''
+          npm install
+          '''
+        }
+      }
+    }
+
+    stage('Build') {
+      steps {
+        dir('sidecar-react') {
+          sh '''
+          npm run build
+          '''
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo '✅ Build succeeded'
+    }
+    failure {
+      echo '❌ Build failed'
+    }
+  }
+}
