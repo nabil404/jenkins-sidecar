@@ -12,12 +12,14 @@ pipeline {
   stages {
     stage('Install Dependencies') {
       steps {
+        sh 'cd sidecar-react'
         sh 'npm i'
       }
     }
 
     stage('Build') {
       steps {
+        sh 'cd sidecar-react'
         sh 'npm run build'
       }
     }
